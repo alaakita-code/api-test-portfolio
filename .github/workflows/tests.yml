@@ -1,0 +1,60 @@
+# Runs the API test suite and publishes the HTML report.
+#
+# Triggers:
+#   - every push and pull request
+#   - manually, from the "Actions" tab ("Run workflow" button)
+#
+# The suite calls a third-party demo API, so a red run can mean the API was
+# unreachable rather than a defect in this project. Check the report first.
+
+name: API tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+# Least privilege: the workflow only needs to read the repository.
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }}
+    # Standard GitHub-hosted runner.
+    runs-on: ubuntu-latest
+    # Stop a hung run instead of letting it wait for the default limit.
+    timeout-minutes: 10
+
+    strategy:
+      # Run every Python version even if one of them fails.
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.13"]
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Run tests
+        run: python -m pytest
+
+      # "if: always()" publishes the report even when tests fail,
+      # which is exactly when the report is needed.
+      - name: Upload HTML report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-report-python-${{ matrix.python-version }}
+          path: reports/report.html
+          if-no-files-found: error
+          retention-days: 30

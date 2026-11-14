@@ -1,0 +1,12 @@
+# Generated test reports
+reports/
+# Full local observation records (contain machine and network details)
+observations_local/
+# Python cache and virtual environments
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+# Local settings that must never be uploaded
+.env
