@@ -26,7 +26,7 @@ published. Nothing is overwritten, so earlier records are kept as history.
 The result is compared with the previous run and any change is listed.
 
 Usage:
-    .venv\\Scripts\\python tools/explore_api.py
+    .\\.venv\\Scripts\\python.exe tools/explore_api.py
 """
 
 import json

@@ -6,7 +6,7 @@ instead of a suite that hangs.
 Each test maps to one Test ID in docs/test_plan.md.
 
 Usage (run only this file):
-    .venv\\Scripts\\python -m pytest tests/test_error_handling.py
+    .\\.venv\\Scripts\\python.exe -m pytest tests/test_error_handling.py
 """
 
 import pytest

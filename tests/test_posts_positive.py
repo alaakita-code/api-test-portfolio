@@ -8,7 +8,7 @@ realistic response but saves nothing, so every test here is independent
 and can run alone or in any order.
 
 Usage (run only this file):
-    .venv\\Scripts\\python -m pytest tests/test_posts_positive.py
+    .\\.venv\\Scripts\\python.exe -m pytest tests/test_posts_positive.py
 """
 
 import json

@@ -15,11 +15,11 @@ published report can never carry the full details.
 
 Usage:
     Default (filtered report):
-        .venv\\Scripts\\python -m pytest
+        .\\.venv\\Scripts\\python.exe -m pytest
 
     Full environment for one run (PowerShell):
         $env:REPORT_FULL_ENVIRONMENT = "1"
-        .venv\\Scripts\\python -m pytest
+        .\\.venv\\Scripts\\python.exe -m pytest
         Remove-Item Env:REPORT_FULL_ENVIRONMENT
 
     To always show another row, add its name to the allow-list below.

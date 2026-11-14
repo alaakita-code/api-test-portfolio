@@ -9,7 +9,7 @@ Each test maps to one Test ID in docs/test_plan.md.
 Expected values come from real responses recorded in docs/api_observed.md.
 
 Usage (run only this file):
-    .venv\\Scripts\\python -m pytest tests/test_posts_negative.py
+    .\\.venv\\Scripts\\python.exe -m pytest tests/test_posts_negative.py
 """
 
 from utils.api_client import send_request

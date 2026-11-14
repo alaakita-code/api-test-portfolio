@@ -2,6 +2,7 @@
 #
 # Triggers:
 #   - every push and pull request
+#   - weekly, to detect changes in the API when the code has not changed
 #   - manually, from the "Actions" tab ("Run workflow" button)
 #
 # The suite calls a third-party demo API, so a red run can mean the API was
@@ -12,6 +13,11 @@ name: API tests
 on:
   push:
   pull_request:
+  schedule:
+    # Cron times are in UTC. Sunday 18:17 UTC is Monday 02:17 in UTC+8.
+    # An off-peak minute is used because runs scheduled on the hour are
+    # often delayed.
+    - cron: "17 18 * * 0"
   workflow_dispatch:
 
 # Least privilege: the workflow only needs to read the repository.

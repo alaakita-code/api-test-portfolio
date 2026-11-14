@@ -10,7 +10,7 @@ Known limitation: GET responses are served from a CDN cache, so the GET
 test below may be checking the cache rather than the origin server.
 
 Usage (run only this file):
-    .venv\\Scripts\\python -m pytest tests/test_repeat_requests.py
+    .\\.venv\\Scripts\\python.exe -m pytest tests/test_repeat_requests.py
 """
 
 from utils.api_client import send_request

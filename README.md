@@ -8,11 +8,11 @@ Automated API tests for the `/posts` resource of [JSONPlaceholder](https://jsonp
 
 ## Purpose
 
-This project shows how I design and automate API tests:
+This project demonstrates an evidence-based approach to designing and automating API tests:
 
-- Test design comes first. Each test maps to a case in the [test plan](docs/test_plan.md).
-- Expected values come from evidence. They are taken from [recorded API responses](docs/api_observed.md), not from assumptions.
-- Tests check more than the status code: fields, data types, content and headers.
+- Test design precedes implementation. Each test maps to a case in the [test plan](docs/test_plan.md).
+- Expected values are derived from evidence. They are taken from [recorded API responses](docs/api_observed.md), not from assumptions.
+- Assertions cover more than the status code: fields, data types, content and headers are verified.
 - Known limitations are documented, not hidden.
 
 ## Test Coverage
@@ -75,14 +75,14 @@ No account, API key or database is required.
 
 ## Setup
 
-Commands are shown for Windows. Run them in the project root.
+Commands are shown for Windows PowerShell and are run from the project root.
 
 ```
 python -m venv .venv
-.venv\Scripts\python -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-On macOS or Linux, use `.venv/bin/python` instead of `.venv\Scripts\python`.
+On macOS or Linux, use `.venv/bin/python` in place of `.\.venv\Scripts\python.exe`.
 
 ## Environment Variables
 
@@ -97,10 +97,10 @@ All variables are optional.
 
 | Goal | Command |
 |---|---|
-| Run all tests | `.venv\Scripts\python -m pytest` |
-| Run the smoke test only | `.venv\Scripts\python -m pytest -m smoke` |
-| Run one file | `.venv\Scripts\python -m pytest tests/test_posts_positive.py` |
-| Record current API behavior | `.venv\Scripts\python tools/explore_api.py` |
+| Run all tests | `.\.venv\Scripts\python.exe -m pytest` |
+| Run the smoke test only | `.\.venv\Scripts\python.exe -m pytest -m smoke` |
+| Run one file | `.\.venv\Scripts\python.exe -m pytest tests/test_posts_positive.py` |
+| Record current API behavior | `.\.venv\Scripts\python.exe tools/explore_api.py` |
 
 A successful run ends with a line like:
 
@@ -111,13 +111,13 @@ A successful run ends with a line like:
 ## Reports
 
 - **Local:** each run writes `reports/report.html`, a single file that opens offline.
-- **CI:** each workflow run publishes one report per Python version. Open a run on the [Actions page](https://github.com/alaakita-code/api-test-portfolio/actions) and download it from the **Artifacts** section.
+- **CI:** the workflow runs on every push and pull request, and once a week. Each run publishes one report per Python version. Open a run on the [Actions page](https://github.com/alaakita-code/api-test-portfolio/actions) and download it from the **Artifacts** section.
 
 The report keeps version information only. Details of the machine that ran the tests are filtered out by default.
 
 ## API Observation Records
 
-`tools/explore_api.py` records what the API really returns and compares the result with the previous run, so a change in API behavior is detected instead of guessed.
+`tools/explore_api.py` records the actual responses of the API and compares them with the previous run, so that a change in API behavior is detected rather than assumed.
 
 Each run writes two records:
 
@@ -132,12 +132,12 @@ The full record stays on the local machine for troubleshooting. Only the public 
 
 - JSONPlaceholder fakes all write operations. POST, PUT, PATCH and DELETE return a realistic response but save nothing, so read-after-write consistency cannot be tested.
 - The API has no authentication and does not validate input. Permission tests and input validation tests are out of scope.
-- For an id that does not exist, PUT returns 404 but DELETE returns 200. The tests record this behavior as it is (NEG-04, NEG-05).
+- For an id that does not exist, PUT returns 404 whereas DELETE returns 200. The tests record this behavior as observed (NEG-04, NEG-05).
 - GET responses are served from a CDN cache. The repeat-request test for GET may verify the cache rather than the origin server.
 - The suite depends on a third-party service. A failure caused by an outage is an environment problem, not a defect in the tests.
 - Concurrency and load tests are not included.
 
-A passing run means the covered behavior matches the recorded expectations. It does not prove that the API is free of defects.
+A passing run indicates that the covered behavior matches the recorded expectations. It does not demonstrate that the API is free of defects.
 
 ## Documentation
 

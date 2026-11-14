@@ -4,7 +4,7 @@ A passing smoke test does not prove the API is correct. A failing one means
 no other result in the suite can be trusted, so fix it first.
 
 Usage (run only this test):
-    .venv\\Scripts\\python -m pytest -m smoke
+    .\\.venv\\Scripts\\python.exe -m pytest -m smoke
 """
 
 import pytest

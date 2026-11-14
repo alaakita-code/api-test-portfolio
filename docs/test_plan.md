@@ -1,58 +1,59 @@
-# 測試計畫（v1.1）
+# 測試計畫（v1.2）
 
 - 被測對象：JSONPlaceholder `/posts`（REST API）
 - Base URL：`https://jsonplaceholder.typicode.com`
-- 狀態：定案。24 案的預期結果全部確定，沒有待確認項目。
-- 預期值的依據：`docs/api_observed.md` 觀察 2（curl）與觀察 3（瀏覽器 `fetch`，請求編號以 # 表示）。
-- 驗證紀錄：POS、BND、NEG 三組共 20 案已用 Python requests 在本機實際執行並通過（2026-11-14，Python 3.13.1），結果與瀏覽器觀察一致。ERR 與 REP 兩組共 4 案的預期值已定，執行結果見專案的測試報告。
+- 狀態：定案。24 個測試案例之預期結果均已確定，無待確認項目。
+- 預期值之依據：`docs/api_observed.md` 之觀察 2（curl）與觀察 3（瀏覽器 `fetch`）。本文件以「#」加編號表示觀察 3 之請求編號。
+- 驗證紀錄：全部 24 個測試案例及 1 個冒煙測試，已以 Python requests 於 CI（Ubuntu，Python 3.11 與 3.13）執行並通過（2026-11-14）。另於本機（Windows，Python 3.13.1）執行通過者，為 ERR-01 修訂前之版本及其餘 24 個測試；ERR-01 修訂後之本機執行結果未經記錄。執行結果與瀏覽器觀察一致。
 
 ## 變更紀錄
 
 | 版本 | 日期 | 內容 |
 |---|---|---|
-| v0.1 | 2026-11-14 | 初版，19 案預期結果待確認 |
-| v0.2 | 2026-11-14 | 依實際觀察填入 17 案預期結果；調整 7 個標題（BND-03 至 06、NEG-01、NEG-03、NEG-05）；NEG-04 加註複驗；POS-05 不納入 `Location` 標頭 |
-| v1.0 | 2026-11-14 | ERR-01、ERR-02 依本機實測回應時間定案；NEG-04 經 Python requests 複驗後定案；新增驗證紀錄 |
-| v1.1 | 2026-11-14 | ERR-01 修訂：由極短的連線逾時改為極短的讀取逾時。原因見第 4 節 |
+| v0.1 | 2026-11-14 | 初版；19 個測試案例之預期結果待確認 |
+| v0.2 | 2026-11-14 | 依實際觀察填入 17 個測試案例之預期結果；調整 7 個標題（BND-03 至 BND-06、NEG-01、NEG-03、NEG-05）；NEG-04 加註須複驗；POS-05 不納入 `Location` 標頭 |
+| v1.0 | 2026-11-14 | ERR-01、ERR-02 依本機實測之回應時間定案；NEG-04 經 Python requests 複驗後定案；新增驗證紀錄 |
+| v1.1 | 2026-11-14 | 修訂 ERR-01：由極短之連線逾時改為極短之讀取逾時，原因詳見第 4 節 |
+| v1.2 | 2026-11-14 | 全文改以正式書面語撰寫；更新驗證紀錄，納入 CI 之執行結果。測試案例之內容未變更 |
 
 ## 1. 測試範圍
 
-**測試**：`/posts` 的 GET、POST、PUT、PATCH、DELETE；查詢參數篩選；一層巢狀路徑 `/posts/{id}/comments`。
+**納入範圍**：`/posts` 之 GET、POST、PUT、PATCH、DELETE；查詢參數篩選；一層巢狀路徑 `/posts/{id}/comments`。
 
-**不測（附原因）**
+**不納入範圍**
 
 | 項目 | 原因 |
 |---|---|
-| 權限與安全（登入、token、越權） | 此 API 沒有驗證機制 |
-| 資料一致性（寫入後查詢） | 寫入不保存；觀察 3 中 #8 刪除 `/posts/1` 後，#19 仍可取得 |
-| 併發與負載測試 | 被測對象為第三方公開服務，未取得負載測試授權 |
-| 其他資源（users、todos 等） | 第一版先把一種資源做深；是否擴充待決定 |
+| 權限與安全性（登入、token、越權存取） | 被測對象未設驗證機制 |
+| 資料一致性（寫入後查詢） | 被測對象不保存寫入結果。觀察 3 之 #8 刪除 `/posts/1` 後，#19 仍可取得該筆資料 |
+| 併發與負載測試 | 被測對象為第三方公開服務，未取得負載測試之授權 |
+| 其他資源（users、todos 等） | 本版聚焦於單一資源之完整涵蓋；是否擴充另行決定 |
 
 ## 2. 優先級定義
 
-- P0：核心讀取與寫入的基本行為錯誤，整個專案失去意義
-- P1：重要但有替代流程（篩選、更新、錯誤回應）
-- P2：次要或低頻情境
+- P0：核心讀取與寫入之基本行為。此類行為錯誤時，其餘測試結果即不具意義。
+- P1：重要行為，惟存有替代流程（篩選、更新、錯誤回應）。
+- P2：次要或低頻情境。
 
 ## 3. 測試案例
 
-共 24 案。Automation Feasibility 全部為「可自動化」，故不另列一欄。
-另有 1 個冒煙測試（`tests/test_smoke.py`）用來確認環境可用，不列入本表，所以實際執行的測試共 25 個。
-Precondition 全部相同：網路可連到 Base URL，不需帳號或金鑰。
+共 24 個測試案例。各案例之自動化可行性（Automation Feasibility）均為「可自動化」，故不另列欄位。
+另有 1 個冒煙測試（`tests/test_smoke.py`）用於確認環境可用，不列入本表；實際執行之測試共 25 個。
+各案例之前置條件（Precondition）相同：網路可連線至 Base URL，無須帳號或金鑰。
 
 ### 正向（Positive）
 
 | Test ID | Title | Pri | Steps | Expected Result | Test Data | 依據 |
 |---|---|---|---|---|---|---|
-| POS-01 | 取得全部文章回傳 100 筆 | P0 | GET /posts | 200；清單長度 100 | 無 | #1 |
-| POS-02 | 取得單筆文章回傳正確欄位與型別 | P0 | GET /posts/1 | 200；id 為 1；欄位恰為 userId、id、title、body；型別為整數、整數、字串、字串 | id=1 | #2 |
-| POS-03 | 以 userId 篩選只回傳該使用者的文章 | P1 | GET /posts?userId=1 | 200；共 10 筆；每筆 userId 為 1 | userId=1 | #3 |
-| POS-04 | 取得文章的留言且每筆 postId 正確 | P1 | GET /posts/1/comments | 200；每筆 postId 為 1 | id=1 | #4 |
-| POS-05 | 新增文章回傳送出的內容與新 id | P0 | POST /posts | 201；id 為 101；title、body、userId 與送出值相同 | data/new_post.json | #5 |
-| POS-06 | 完整更新文章回傳更新後內容 | P1 | PUT /posts/1 | 200；回傳內容與送出內容完全相同 | data/updated_post.json | #6 |
-| POS-07 | 部分更新只改動指定欄位 | P1 | PATCH /posts/1 | 200；title 為 `patched`；userId、id、body 維持原值 | title="patched" | #7 |
-| POS-08 | 刪除文章回傳成功 | P1 | DELETE /posts/1 | 200；內容為 `{}` | id=1 | #8 |
-| POS-09 | 回應標頭為 JSON 格式 | P2 | GET /posts/1 | `Content-Type` 為 `application/json; charset=utf-8` | id=1 | 觀察 2、觀察 3 全部 20 筆 |
+| POS-01 | 取得全部文章時回傳 100 筆 | P0 | GET /posts | 200；清單長度為 100 | 無 | #1 |
+| POS-02 | 取得單筆文章時回傳正確之欄位與型別 | P0 | GET /posts/1 | 200；id 為 1；欄位恰為 userId、id、title、body；型別依序為整數、整數、字串、字串 | id=1 | #2 |
+| POS-03 | 以 userId 篩選時僅回傳該使用者之文章 | P1 | GET /posts?userId=1 | 200；共 10 筆；各筆之 userId 均為 1 | userId=1 | #3 |
+| POS-04 | 取得文章之留言時各筆 postId 正確 | P1 | GET /posts/1/comments | 200；各筆之 postId 均為 1 | id=1 | #4 |
+| POS-05 | 新增文章時回傳送出之內容及新 id | P0 | POST /posts | 201；id 為 101；title、body、userId 與送出值相同 | data/new_post.json | #5 |
+| POS-06 | 完整更新文章時回傳更新後之內容 | P1 | PUT /posts/1 | 200；回傳內容與送出內容完全相同 | data/updated_post.json | #6 |
+| POS-07 | 部分更新時僅變更指定欄位 | P1 | PATCH /posts/1 | 200；title 為 `patched`；userId、id、body 維持原值 | title="patched" | #7 |
+| POS-08 | 刪除文章時回傳成功 | P1 | DELETE /posts/1 | 200；內容為 `{}` | id=1 | #8 |
+| POS-09 | 回應標頭宣告為 JSON 格式 | P2 | GET /posts/1 | `Content-Type` 為 `application/json; charset=utf-8` | id=1 | 觀察 2；觀察 3 全部 20 筆 |
 
 ### 邊界（Boundary）
 
@@ -60,8 +61,8 @@ Precondition 全部相同：網路可連到 Base URL，不需帳號或金鑰。
 |---|---|---|---|---|---|---|
 | BND-01 | 最小有效 id 可取得 | P1 | GET /posts/1 | 200；id 為 1 | id=1 | #2 |
 | BND-02 | 最大有效 id 可取得 | P1 | GET /posts/100 | 200；id 為 100 | id=100 | #9 |
-| BND-03 | 低於最小值的 id 回傳 404 與空物件 | P1 | GET /posts/0 | 404；內容為 `{}` | id=0 | #10 |
-| BND-04 | 高於最大值的 id 回傳 404 與空物件 | P1 | GET /posts/101 | 404；內容為 `{}` | id=101 | #11 |
+| BND-03 | 低於最小值之 id 回傳 404 與空物件 | P1 | GET /posts/0 | 404；內容為 `{}` | id=0 | #10 |
+| BND-04 | 高於最大值之 id 回傳 404 與空物件 | P1 | GET /posts/101 | 404；內容為 `{}` | id=101 | #11 |
 | BND-05 | 負數 id 回傳 404 與空物件 | P2 | GET /posts/-1 | 404；內容為 `{}` | id=-1 | #12 |
 | BND-06 | 非數字 id 回傳 404 與空物件 | P2 | GET /posts/abc | 404；內容為 `{}` | id=abc | #13 |
 
@@ -69,45 +70,73 @@ Precondition 全部相同：網路可連到 Base URL，不需帳號或金鑰。
 
 | Test ID | Title | Pri | Steps | Expected Result | Test Data | 依據 |
 |---|---|---|---|---|---|---|
-| NEG-01 | 不存在的路徑回傳 404 與空物件 | P1 | GET /not-a-real-path | 404；內容為 `{}` | 無 | #14 |
+| NEG-01 | 不存在之路徑回傳 404 與空物件 | P1 | GET /not-a-real-path | 404；內容為 `{}` | 無 | #14 |
 | NEG-02 | 篩選無符合資料時回傳空清單 | P1 | GET /posts?userId=999 | 200；內容為空清單 `[]` | userId=999 | #15 |
-| NEG-03 | 新增時送空內容仍被接受 | P2 | POST /posts，內容為 {} | 201；內容為 `{"id":101}` | {} | #16 |
-| NEG-04 | 更新不存在的 id 回傳 404 與空物件 | P2 | PUT /posts/101 | 404；內容為 `{}` | id=101 | #17；Python requests 複驗相同 |
-| NEG-05 | 刪除不存在的 id 仍回傳 200 | P2 | DELETE /posts/101 | 200；內容為 `{}` | id=101 | #18 |
+| NEG-03 | 新增時送出空白內容仍獲接受 | P2 | POST /posts，內容為 {} | 201；內容為 `{"id":101}` | {} | #16 |
+| NEG-04 | 更新不存在之 id 時回傳 404 與空物件 | P2 | PUT /posts/101 | 404；內容為 `{}` | id=101 | #17；經 Python requests 複驗，結果相同 |
+| NEG-05 | 刪除不存在之 id 時仍回傳 200 | P2 | DELETE /posts/101 | 200；內容為 `{}` | id=101 | #18 |
 
 ### 錯誤處理（Error handling，驗證測試工具本身）
 
 | Test ID | Title | Pri | Steps | Expected Result | Test Data | 依據 |
 |---|---|---|---|---|---|---|
-| ERR-01 | 回應未於時限內送達時 client 拋出逾時錯誤 | P1 | 以正常的連線逾時、0.0001 秒的讀取逾時呼叫 GET /posts | 拋出 requests 的 Timeout，不會無限等待 | 連線逾時 10 秒；讀取逾時 0.0001 秒 | 連線建立後，遠端伺服器無法於萬分之一秒內回應，必定逾時 |
-| ERR-02 | 正常請求在逾時上限內完成 | P2 | GET /posts/1 | 200；回應時間低於 10 秒 | id=1；上限 10 秒 | 本機實測：10 個測試 10.73 秒、21 個測試 20.69 秒，平均每個約 1 秒 |
+| ERR-01 | 回應未於時限內送達時，用戶端拋出逾時錯誤 | P1 | 以正常之連線逾時及 0.0001 秒之讀取逾時呼叫 GET /posts | 拋出 requests 之 Timeout，不致無限等待 | 連線逾時 10 秒；讀取逾時 0.0001 秒 | 連線建立後，遠端伺服器無法於萬分之一秒內回應，故必然逾時 |
+| ERR-02 | 正常請求於逾時上限內完成 | P2 | GET /posts/1 | 200；回應時間低於 10 秒 | id=1；上限 10 秒 | 本機實測：10 個測試耗時 10.73 秒、21 個測試耗時 20.69 秒，平均每個約 1 秒 |
 
 ### 重複請求（Repeat）
 
 | Test ID | Title | Pri | Steps | Expected Result | Test Data | 依據 |
 |---|---|---|---|---|---|---|
-| REP-01 | 同一 GET 連送 3 次結果完全相同 | P1 | GET /posts/1 三次 | 三次狀態碼與內容相同 | id=1 | #2、#19 |
-| REP-02 | 同一 DELETE 連送 2 次結果一致 | P2 | DELETE /posts/1 兩次 | 兩次都是 200 與 `{}` | id=1 | #8、#20 |
+| REP-01 | 同一 GET 請求連續送出 3 次時結果完全相同 | P1 | 連續送出 GET /posts/1 三次 | 三次之狀態碼與內容均相同 | id=1 | #2、#19 |
+| REP-02 | 同一 DELETE 請求連續送出 2 次時結果一致 | P2 | 連續送出 DELETE /posts/1 兩次 | 兩次均為 200 與 `{}` | id=1 | #8、#20 |
 
-## 4. 需要特別說明的案例
+## 4. 個別案例之說明
 
-- **NEG-03**：API 不驗證輸入，空內容仍回 201。這個測試記錄的是 API 的實際行為，不代表這是正確設計；README 會註明「真實產品應該拒絕這類請求」。
-- **NEG-04 與 NEG-05**：對同一個不存在的 id，PUT 回 404、DELETE 回 200，兩者行為不一致。兩案都已用 Python requests 複驗，結果相同。
-- **POS-05**：觀察到回應帶有 `Location` 標頭（指向 `/posts/101`），本案不驗證它，維持每個測試只驗證一個行為。
-- **REP-01**：GET 回應多來自 Cloudflare 快取（`cf-cache-status: HIT`），這個測試驗證到的可能是快取的一致性，不一定是來源伺服器的行為。README 的限制段落會說明。
-- **ERR-01 的修訂（v1.1）**：原設計以 0.001 秒的整體逾時呼叫 API，預期必定得到逾時錯誤。此設計在本機（Windows）通過，但在 CI（GitHub 的 Linux 執行環境）失敗：兩個 Python 版本都得到 `ConnectionError`，訊息為 `[Errno 101] Network is unreachable`，其餘 24 個測試通過。
-  - 分類：測試腳本問題。被測對象與 CI 的網路皆正常（同一次執行中其餘 24 個測試成功連線）。
-  - 最可能的根因：連線逾時極短時，用戶端會依序嘗試主機的每個位址，並回報最後一次嘗試的錯誤。在沒有 IPv6 路由的環境，最後一次嘗試（IPv6）立即以「網路無法連線」失敗，因此得到的是連線錯誤而非逾時。此為依錯誤訊息所做的推論，信心程度中高，未直接檢視執行環境的網路設定。
-  - 原設計的錯誤假設：「逾時夠短就必定得到逾時錯誤」。實際上結果取決於執行環境的網路組態。
-  - 修訂：改用讀取逾時。連線以正常時限建立（與其餘測試相同），再要求回應於 0.0001 秒內送達。讀取逾時在連線建立後才生效，不受位址嘗試順序影響。
-  - 未採用的做法：讓測試同時接受逾時錯誤與連線錯誤。這會放寬斷言，使測試在網路中斷時也通過，無法再證明逾時設定有效。
-- **ERR-01、ERR-02**：數值依本機實測決定。平均每個測試約 1 秒，這個平均值包含測試工具的啟動時間，且只有兩次執行。10 秒上限是保守的安全範圍（約十倍餘裕），不是效能標準；設得太接近實際回應時間會變成不穩定測試（flaky test，時好時壞的測試）。
-- **不寫斷言的標頭**：`Date`、`Age`、`CF-RAY`、`Report-To` 每次請求都可能不同；`x-ratelimit-remaining` 可能是快取當時的舊值（待確認）。
+### 4.1 NEG-03
+
+被測對象不驗證輸入，送出空白內容仍回應 201。本案例所記錄者為被測對象之實際行為，並不表示該行為屬正確之設計；正式產品應拒絕此類請求。此限制已載於 README。
+
+### 4.2 NEG-04 與 NEG-05
+
+對同一不存在之 id，PUT 回應 404，DELETE 回應 200，兩者行為不一致。兩案例均已以 Python requests 複驗，結果相同。
+
+### 4.3 POS-05
+
+觀察結果顯示回應帶有 `Location` 標頭（指向 `/posts/101`）。本案例不驗證該標頭，以維持每個測試僅驗證單一行為之原則。
+
+### 4.4 REP-01
+
+GET 回應多由 Cloudflare 快取提供（`cf-cache-status: HIT`），故本案例所驗證者可能為快取之一致性，未必為來源伺服器之行為。此限制已載於 README。
+
+### 4.5 ERR-01 之修訂（v1.1）
+
+**失敗現象**：原設計以 0.001 秒之整體逾時呼叫 API，並預期必然取得逾時錯誤。該設計於本機（Windows）通過，惟於 CI（GitHub 之 Linux 執行環境）失敗。兩個 Python 版本均取得 `ConnectionError`，訊息為 `[Errno 101] Network is unreachable`；其餘 24 個測試通過。
+
+**分類**：測試腳本問題。同一次執行中，其餘 24 個測試均成功連線，足認被測對象與 CI 之網路均屬正常。
+
+**最可能之根因**：連線逾時極短時，用戶端依序嘗試主機之各個位址，並回報最後一次嘗試之錯誤。於無 IPv6 路由之環境，最後一次嘗試（IPv6）立即以「網路無法連線」失敗，故取得者為連線錯誤，而非逾時錯誤。此項判斷係依錯誤訊息所為之推論，信心程度為中高；未直接檢視執行環境之網路設定。
+
+**原設計之錯誤假設**：「逾時時間夠短，即必然取得逾時錯誤。」實際上，結果取決於執行環境之網路組態。
+
+**修訂內容**：改採讀取逾時。連線以正常時限建立（與其餘測試相同），其後要求回應於 0.0001 秒內送達。讀取逾時於連線建立後始生效，不受位址嘗試順序影響。
+
+**驗證結果**：修訂後之測試於 CI（Python 3.11 與 3.13）通過。修訂後之本機執行結果未經記錄。
+
+**未採用之方案**：使測試同時接受逾時錯誤與連線錯誤。此方案將放寬斷言，使測試於網路中斷時亦通過，致無法證明逾時設定確實有效，故不予採用。
+
+### 4.6 ERR-01 與 ERR-02 之數值
+
+數值依本機實測結果訂定。平均每個測試約需 1 秒；此平均值包含測試工具之啟動時間，且僅有兩次執行之樣本。10 秒之上限為保守之安全範圍（約十倍餘裕），並非效能標準。上限若過於接近實際回應時間，將形成不穩定之測試（flaky test，即結果時而通過、時而失敗之測試）。
+
+### 4.7 不設斷言之標頭
+
+`Date`、`Age`、`CF-RAY`、`Report-To` 之值於每次請求皆可能不同，故不設斷言。`x-ratelimit-remaining` 之值可能為存入快取當時之數值，未必反映當下之剩餘額度；此點尚待確認，故亦不設斷言。
 
 ## 5. 檔案結構
 
 ```text
 api-test-portfolio/
+├── .github/workflows/tests.yml
 ├── tests/
 │   ├── conftest.py
 │   ├── test_smoke.py
@@ -127,18 +156,19 @@ api-test-portfolio/
 │   ├── USAGE.zh-TW.md
 │   ├── test_plan.md
 │   ├── api_observed.md
-│   └── api_notes.md
-├── reports/            (不進版控)
-├── .github/workflows/tests.yml
+│   ├── api_notes.md
+│   └── observations/
+├── reports/                 （不納入版本控制）
+├── observations_local/      （不納入版本控制）
 ├── requirements.txt
 ├── pytest.ini
 ├── README.md
 └── README.zh-TW.md
 ```
 
-暫不建立 `utils/assertions.py` 與 `data/expected_responses/`，等確實出現重複的斷言再抽出，避免過度抽象。
+本專案暫不建立 `utils/assertions.py` 與 `data/expected_responses/`。俟斷言確有重複時再行抽出，以避免過度抽象。
 
 ## 6. 命名規則
 
-- 測試函式：`test_<被測行為>_<條件>_<預期結果>`，例如 `test_get_post_with_id_above_max_returns_404`
-- 每個測試用 Arrange、Act、Assert 三段，並在文件字串標示 Test ID
+- 測試函式之名稱格式為 `test_<被測行為>_<條件>_<預期結果>`，例如 `test_get_post_with_valid_id_returns_expected_fields_and_types`。
+- 每個測試採 Arrange、Act、Assert 三段式結構，並於說明文字標示對應之 Test ID。
