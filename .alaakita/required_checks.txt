@@ -1,0 +1,4 @@
+# submit 時這些檢查都必須出現且通過(名稱與 Ruleset 的必要檢查一致)
+gate
+Python 3.11
+Python 3.13
