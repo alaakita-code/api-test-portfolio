@@ -3,6 +3,8 @@
 [![API tests](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/tests.yml/badge.svg)](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/tests.yml)
 [![AlaAkita Gate](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/alaakita-gate.yml/badge.svg)](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/alaakita-gate.yml)
 
+![專案概覽：設計、觀察、自動化與驗證四個步驟，並於 Python 3.11 與 3.13 以 CI 執行](docs/overview.png)
+
 本專案以 pytest 與 requests 撰寫 API 自動化測試，被測對象為 [JSONPlaceholder](https://jsonplaceholder.typicode.com) 之 `/posts` 資源。各項預期值皆可追溯至對實際 API 之觀察紀錄。
 
 English: [README.md](README.md)
