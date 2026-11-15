@@ -1,10 +1,11 @@
-# 這次改動的預期(每次改動前先改寫這個檔案,舊規則會讓下一次擋關失敗)
+# 這次改動的預期(先寫這裡,再改內容)
 # + 檔案 :: 標記   修改後次數必須比修改前多
 # - 檔案 :: 標記   修改前存在、修改後必須為 0
 # = 檔案 :: 標記   修改前後都必須存在(防誤刪)
 
-# 本次:README 中英文版加入擋關徽章與合併規則說明
-+ README.md :: AlaAkita Gate
-+ README.zh-TW.md :: AlaAkita 擋關
-= README.md :: tests.yml/badge.svg
-= README.zh-TW.md :: tests.yml/badge.svg
+# 本次:加入 ship.py 一鍵流程與必要檢查清單
++ tools/alaakita/ship.py :: def cmd_submit(
++ tools/alaakita/test_ship.py :: test_s09_no_checks_ever_is_not_green
++ .alaakita/required_checks.txt :: Python 3.13
++ tools/alaakita/README.zh-TW.md :: ship.py
+= tools/alaakita/gate.py :: def run_gate(

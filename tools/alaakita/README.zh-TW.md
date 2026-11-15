@@ -55,7 +55,27 @@ git switch -c 改動名稱
 
 預期檔沒更新時,舊規則會讓擋關失敗,這是刻意設計:每次改動都要重新證明。
 
-## 四、重複錯誤計數(lesson_counter.py)
+## 四、一鍵流程(ship.py)
+
+人工只留兩個點:改之前寫好預期、合併前看 PR 內容。其他步驟自動執行。
+需要 GitHub CLI:`winget install --id GitHub.cli -e`,重開 PowerShell 後執行 `gh auth login`。
+
+```
+python tools/alaakita/ship.py start 分支名稱
+python tools/alaakita/ship.py submit "commit 訊息"
+python tools/alaakita/ship.py finish
+```
+
+| 步驟 | 自動做的事 | 會停下來的情況 |
+|---|---|---|
+| start | 從最新 main 開分支、建立預期檔範本 | 有尚未 commit 的修改、分支已存在 |
+| submit | 本機擋關 → commit → push → 開 PR → 等檢查 | 本機擋關沒過(不 commit、不推送)、任何檢查失敗、檢查沒出現或逾時、缺少必要檢查 |
+| finish | 切回 main、pull、刪除本地與遠端分支 | PR 還沒合併 |
+
+- **不會自動合併**:submit 全綠後只印出 PR 網址,由你在 GitHub 看 Files changed 後按合併。
+- 必要檢查列在 `.alaakita/required_checks.txt`,一行一個名稱;缺任何一個都不算通過。
+
+## 五、重複錯誤計數(lesson_counter.py)
 
 同一類錯第二次出現,就列為晉升候選,不用等週五儀式。
 
@@ -86,7 +106,7 @@ python tools/alaakita/lesson_counter.py --journal journal --lessons lessons.md -
 
 只想看報告不想擋,加 `--warn-only`。
 
-## 五、限制
+## 六、限制
 
 - `lesson_counter` 只認得有加 `[錯誤:類別]` 的條目;沒標記的錯誤不會被計數。
 - `path_check` 只比對文字標記,無法判斷邏輯是否正確,這部分仍靠 verify 與測試。
