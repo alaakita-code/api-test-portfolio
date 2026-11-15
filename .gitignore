@@ -10,3 +10,5 @@ __pycache__/
 venv/
 # Local settings that must never be uploaded
 .env
+# 改動工作室的本機紀錄(不上傳)
+.alaakita/local/
