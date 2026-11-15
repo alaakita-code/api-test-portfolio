@@ -1,0 +1,10 @@
+# 這次改動的預期(每次改動前先改寫這個檔案,舊規則會讓下一次擋關失敗)
+# + 檔案 :: 標記   修改後次數必須比修改前多
+# - 檔案 :: 標記   修改前存在、修改後必須為 0
+# = 檔案 :: 標記   修改前後都必須存在(防誤刪)
+
+# 本次:加入 AlaAkita 擋關,且不影響原本的測試設定
++ .github/workflows/alaakita-gate.yml :: name: AlaAkita Gate
++ tools/alaakita/gate.py :: def run_gate(
+= pytest.ini :: testpaths = tests
+= .github/workflows/tests.yml :: python -m pytest

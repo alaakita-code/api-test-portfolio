@@ -1,0 +1,43 @@
+# AlaAkita 擋關:verify(結果)+ path_check(路徑)+ 專案測試,沒全綠就不能合併。
+# 設定在 .alaakita/gate.txt;每次改動前先更新 .alaakita/expect.txt。
+# 要真正「擋住合併」,還需在 GitHub 的 Settings → Rules → Rulesets
+# 把狀態檢查「gate」設為必要(見 tools/alaakita/README.zh-TW.md)。
+name: AlaAkita Gate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: alaakita-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0   # path_check 需要比較基準 commit
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Show tool versions
+        run: |
+          python --version
+          node --version
+          git --version
+
+      - name: Run gate
+        env:
+          # PR:合併目標分支的 commit;push:推送前的 commit;手動執行:空白(略過路徑檢查)
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: python -I tools/alaakita/gate.py --base "$BASE_SHA"

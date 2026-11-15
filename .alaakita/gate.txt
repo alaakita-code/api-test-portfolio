@@ -1,0 +1,9 @@
+# AlaAkita 擋關設定(一行一條,# 為註解)
+# verify  <樣式>     對符合的單檔 HTML 跑 verify.py;樣式找不到檔案也算失敗
+# test    <指令>     執行測試指令,exit 0 才算通過
+# expect  <路徑>     預期檔位置,預設 .alaakita/expect.txt
+#
+# 本 repo 沒有單檔 HTML 工具,所以不設 verify。
+# API 測試由原本的 tests.yml 負責,這裡只跑擋關工具自己的測試。
+
+test    python -m unittest discover -s tools/alaakita -p "test_*.py"
