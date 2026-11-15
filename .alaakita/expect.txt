@@ -1,12 +1,10 @@
-# 這次改動的預期(先寫這裡,再改內容)
-# + 檔案 :: 標記   修改後次數必須比修改前多
-# - 檔案 :: 標記   修改前存在、修改後必須為 0
-# = 檔案 :: 標記   修改前後都必須存在(防誤刪)
+# 預期變更清單:每次改動前先列出預期結果,合併前由擋關逐項對照
+# + 檔案 :: 標記   修改後次數須增加(用來證明新增了內容)
+# - 檔案 :: 標記   修改後次數須減少
+# = 檔案 :: 標記   修改前後次數須相同(用來確認沒有誤改)
 
-# 本次:加入改動工作室與工具檢查,紀錄資料夾排除上傳
-+ tools/alaakita/studio.py :: def make_handler(
-+ tools/alaakita/doctor.py :: def mask(
-+ tools/alaakita/test_studio.py :: test_st12_refuse_when_history_not_ignored
-+ .gitignore :: .alaakita/local/
-+ tools/alaakita/README.zh-TW.md :: studio.py
-= tools/alaakita/ship.py :: def cmd_submit(
+# 本次:在 README 加入專案概覽圖
++ README.md :: docs/overview.png
++ README.zh-TW.md :: docs/overview.png
+= README.md :: AlaAkita Gate
+= README.zh-TW.md :: AlaAkita Gate

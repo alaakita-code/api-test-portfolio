@@ -3,6 +3,8 @@
 [![API tests](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/tests.yml/badge.svg)](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/tests.yml)
 [![AlaAkita Gate](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/alaakita-gate.yml/badge.svg)](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/alaakita-gate.yml)
 
+![Overview: design, observe, automate and verify, with CI on Python 3.11 and 3.13](docs/overview.png)
+
 Automated API tests for the `/posts` resource of [JSONPlaceholder](https://jsonplaceholder.typicode.com), written with pytest and requests. Every expected value is traced to a recorded observation of the real API.
 
 中文說明：[README.zh-TW.md](README.zh-TW.md)
@@ -67,6 +69,7 @@ api-test-portfolio/
 │   ├── api_observed.md           Initial recorded responses
 │   ├── api_notes.md              Exploration summary and known limitations
 │   ├── observations/             Timestamped observation records and index
+│   ├── overview.png              Overview diagram shown in the README
 │   └── USAGE.zh-TW.md            User manual (Traditional Chinese)
 ├── pytest.ini
 └── requirements.txt
