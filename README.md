@@ -1,6 +1,7 @@
 # API Test Portfolio
 
 [![API tests](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/tests.yml/badge.svg)](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/tests.yml)
+[![AlaAkita Gate](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/alaakita-gate.yml/badge.svg)](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/alaakita-gate.yml)
 
 Automated API tests for the `/posts` resource of [JSONPlaceholder](https://jsonplaceholder.typicode.com), written with pytest and requests. Every expected value is traced to a recorded observation of the real API.
 
@@ -42,7 +43,10 @@ This project demonstrates an evidence-based approach to designing and automating
 
 ```text
 api-test-portfolio/
-├── .github/workflows/tests.yml   CI workflow
+├── .alaakita/                    Merge gate settings and expected changes
+├── .github/workflows/
+│   ├── tests.yml                 CI workflow: API tests
+│   └── alaakita-gate.yml         CI workflow: AlaAkita Gate (merge gate)
 ├── tests/
 │   ├── conftest.py               Shared settings: report environment filter
 │   ├── test_smoke.py             Smoke test
@@ -55,7 +59,9 @@ api-test-portfolio/
 │   ├── api_client.py             Request wrapper: base URL, timeout, logging
 │   └── config.py                 Settings
 ├── data/                         Test data
-├── tools/explore_api.py          Observation tool: records real API responses
+├── tools/
+│   ├── explore_api.py            Observation tool: records real API responses
+│   └── alaakita/                 AlaAkita Gate: change-location check, repeated-error counter
 ├── docs/
 │   ├── test_plan.md              Scope, priorities, test cases and their basis
 │   ├── api_observed.md           Initial recorded responses
@@ -112,6 +118,7 @@ A successful run ends with a line like:
 
 - **Local:** each run writes `reports/report.html`, a single file that opens offline.
 - **CI:** the workflow runs on every push and pull request, and once a week. Each run publishes one report per Python version. Open a run on the [Actions page](https://github.com/alaakita-code/api-test-portfolio/actions) and download it from the **Artifacts** section.
+- **Merge gate:** `main` accepts changes only through pull requests. A pull request can be merged only after the API tests pass on both Python versions and the AlaAkita Gate passes. The gate checks that each change lands where `.alaakita/expect.txt` says it should.
 
 The report keeps version information only. Details of the machine that ran the tests are filtered out by default.
 

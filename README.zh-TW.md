@@ -1,6 +1,7 @@
 # API 自動化測試作品集
 
 [![API tests](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/tests.yml/badge.svg)](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/tests.yml)
+[![AlaAkita Gate](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/alaakita-gate.yml/badge.svg)](https://github.com/alaakita-code/api-test-portfolio/actions/workflows/alaakita-gate.yml)
 
 本專案以 pytest 與 requests 撰寫 API 自動化測試，被測對象為 [JSONPlaceholder](https://jsonplaceholder.typicode.com) 之 `/posts` 資源。各項預期值皆可追溯至對實際 API 之觀察紀錄。
 
@@ -60,6 +61,7 @@ python -m venv .venv
 
 - **本機**：每次執行產生 `reports/report.html`，為可離線開啟之單一檔案。
 - **CI**：工作流程於每次推送、每次合併請求及每週排程時執行，並為各 Python 版本發布一份報告，可於 [Actions 頁面](https://github.com/alaakita-code/api-test-portfolio/actions)之 Artifacts 區塊下載。
+- **合併檢查**：`main` 僅接受經合併請求（pull request）之變更。合併請求須通過兩個 Python 版本之 API 測試及 AlaAkita 擋關，始得合併；擋關會確認各項變更確實發生於 `.alaakita/expect.txt` 所列之位置。
 
 報告預設僅保留版本資訊，不含執行環境之其他細節。
 
