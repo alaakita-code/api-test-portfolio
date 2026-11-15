@@ -3,9 +3,10 @@
 # - 檔案 :: 標記   修改前存在、修改後必須為 0
 # = 檔案 :: 標記   修改前後都必須存在(防誤刪)
 
-# 本次:加入 ship.py 一鍵流程與必要檢查清單
-+ tools/alaakita/ship.py :: def cmd_submit(
-+ tools/alaakita/test_ship.py :: test_s09_no_checks_ever_is_not_green
-+ .alaakita/required_checks.txt :: Python 3.13
-+ tools/alaakita/README.zh-TW.md :: ship.py
-= tools/alaakita/gate.py :: def run_gate(
+# 本次:加入改動工作室與工具檢查,紀錄資料夾排除上傳
++ tools/alaakita/studio.py :: def make_handler(
++ tools/alaakita/doctor.py :: def mask(
++ tools/alaakita/test_studio.py :: test_st12_refuse_when_history_not_ignored
++ .gitignore :: .alaakita/local/
++ tools/alaakita/README.zh-TW.md :: studio.py
+= tools/alaakita/ship.py :: def cmd_submit(
