@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-AlaAkita 改動工作室 studio.py v1.0 — 一個本機網頁，把改動流程收成六步
+AlaAkita 變更工作室 studio.py v1.0 — 一個本機網頁，把改動流程收成六步
 
 用法(在 repo 根目錄):
   python tools/alaakita/studio.py            啟動並自動打開瀏覽器
@@ -287,7 +287,7 @@ def make_handler(studio, port):
 
 def main(argv=None):
     doctor._fix_console()
-    p = argparse.ArgumentParser(description="AlaAkita 改動工作室")
+    p = argparse.ArgumentParser(description="AlaAkita 變更工作室")
     p.add_argument("--port", type=int, default=8765)
     p.add_argument("--no-browser", action="store_true")
     a = p.parse_args(argv)
@@ -304,21 +304,21 @@ def main(argv=None):
         print("[停止] 連接埠 {0} 已被使用，請改用 --port 其他號碼".format(a.port))
         return 2
     url = "http://127.0.0.1:{0}/#t={1}".format(a.port, token)
-    print("改動工作室已啟動：{0}".format(url))
+    print("變更工作室已啟動：{0}".format(url))
     print("(網址含一次性通行碼，只在這台電腦有效;按 Ctrl+C 結束)")
     if not a.no_browser:
         threading.Timer(0.6, lambda: webbrowser.open(url)).start()
     try:
         srv.serve_forever()
     except KeyboardInterrupt:
-        print("\n已結束改動工作室。")
+        print("\n已結束變更工作室。")
     return 0
 
 
 PAGE = u"""<!DOCTYPE html>
 <html lang="zh-Hant-TW"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>改動工作室</title>
+<title>變更工作室</title>
 <style>
 :root{--bg:#f7f3ec;--panel:#fffdf9;--ink:#2f2b26;--quiet:#7a7166;--line:#e4dccf;--accent:#3f7a72;--accent-soft:#e3efec;--warn:#a8691c;--warn-soft:#f8ecd9;--bad:#a8423a;--bad-soft:#f6e1de;--good:#3f7a52;--good-soft:#e2efe5}
 *{box-sizing:border-box}[hidden]{display:none!important}
@@ -353,7 +353,7 @@ td.s{width:28px}
 a{color:var(--accent)}
 .locked{opacity:.55}
 </style></head><body>
-<header><h1>改動工作室</h1><div id="status" class="hint">讀取中…</div></header>
+<header><h1>變更工作室</h1><div id="status" class="hint">讀取中…</div></header>
 <main>
 <div>
 <section class="card" id="s1"><h2><span class="num">1</span>開始</h2>

@@ -5,7 +5,7 @@ AlaAkita 工具基本檢查 doctor.py v1.0 — 與 Claude 配合前，先確認�
 
 用法：
   python doctor.py            在任何資料夾執行;在 repo 內會多檢查 repo 狀態
-  python doctor.py --json     給改動工作室使用
+  python doctor.py --json     給變更工作室使用
 
 輸出已遮蔽：使用者資料夾顯示為 ~，長得像 token 的字串顯示為 ****,
 可以直接整段貼給 Claude。
@@ -23,14 +23,14 @@ import sys
 VERSION = "1.0"
 OK, WARN, FAIL = "ok", "warn", "fail"
 MARK = {OK: "✅", WARN: "⚠️", FAIL: "❌"}
-CWD = None  # 改動工作室指定 repo 根目錄;單獨執行時為目前資料夾
+CWD = None  # 變更工作室指定 repo 根目錄;單獨執行時為目前資料夾
 
 TOKEN_RE = re.compile(r"(gh[pousr]_[A-Za-z0-9]{8,}|github_pat_[A-Za-z0-9_]{8,}|sk-[A-Za-z0-9_\-]{8,}"
                       r"|(?i:bearer)\s+[A-Za-z0-9._\-]{8,}|(?i:token|password|passwd|secret)\s*[=:]\s*\S+)")
 
 
 def mask(text):
-    """遮蔽使用者資料夾與 token。改動工作室的紀錄也用這個函式。"""
+    """遮蔽使用者資料夾與 token。變更工作室的紀錄也用這個函式。"""
     if not text:
         return text
     home = os.path.expanduser("~")
