@@ -3,8 +3,14 @@
 # - 檔案 :: 標記   修改後次數須減少
 # = 檔案 :: 標記   修改前後次數須相同(用來確認沒有誤改)
 
-# 本次:新增測試計畫編號與測試案例之對照檢查，並於 CI 作業摘要輸出結果表
-+ .github/workflows/tests.yml :: trace_summary
-+ .github/workflows/tests.yml :: --junitxml
-= .github/workflows/tests.yml :: python -m pip install -r requirements.txt
-= docs/test_plan.md :: POS-05
+# 本次:將「改動工作室」統一更名為「變更工作室」(僅文字替換,不改程式邏輯)
+- .gitignore :: 改動工作室
++ .gitignore :: 變更工作室
+- tools/alaakita/README.zh-TW.md :: 改動工作室
++ tools/alaakita/README.zh-TW.md :: 變更工作室
+- tools/alaakita/doctor.py :: 改動工作室
++ tools/alaakita/doctor.py :: 變更工作室
+= tools/alaakita/doctor.py :: def mask(
+- tools/alaakita/studio.py :: 改動工作室
++ tools/alaakita/studio.py :: 變更工作室
+= tools/alaakita/studio.py :: def make_handler(
