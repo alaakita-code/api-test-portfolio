@@ -87,7 +87,7 @@ class StudioCase(unittest.TestCase):
         with io.open(self.state, encoding="utf-8") as f:
             return json.load(f).get("calls", [])
 
-    def call(self, method, path, body=None, token=TOKEN, host=None):
+    def call(self, method, path, body=None, token: "str | None" = TOKEN, host=None):
         data = json.dumps(body).encode("utf-8") if body is not None else None
         req = urllib.request.Request("http://127.0.0.1:{0}{1}".format(self.port, path), data=data, method=method)
         req.add_header("Content-Type", "application/json")
