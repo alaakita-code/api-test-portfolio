@@ -63,6 +63,7 @@ python -m venv .venv
 
 - **本機**：每次執行產生 `reports/report.html`，為可離線開啟之單一檔案。
 - **CI**：工作流程於每次推送、每次合併請求及每週排程時執行，並為各 Python 版本發布一份報告，可於 [Actions 頁面](https://github.com/alaakita-code/api-test-portfolio/actions)之 Artifacts 區塊下載。
+- **追溯對照**：每次 CI 執行皆比對 `docs/test_plan.md` 與 `tests/` 所載之 Test ID，並將結果表寫入該次執行之摘要；任一編號僅存在於單邊時，該步驟判定為失敗。
 - **合併檢查**：`main` 僅接受經合併請求（pull request）之變更。合併請求須通過兩個 Python 版本之 API 測試及 AlaAkita 擋關，始得合併；擋關會確認各項變更確實發生於 `.alaakita/expect.txt` 所列之位置。
 
 報告預設僅保留版本資訊，不含執行環境之其他細節。

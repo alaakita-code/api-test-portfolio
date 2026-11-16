@@ -3,14 +3,13 @@
 # - 檔案 :: 標記   修改後次數須減少
 # = 檔案 :: 標記   修改前後次數須相同(用來確認沒有誤改)
 
-# 本次:將「改動工作室」統一更名為「變更工作室」(僅文字替換,不改程式邏輯)
-- .gitignore :: 改動工作室
-+ .gitignore :: 變更工作室
-- tools/alaakita/README.zh-TW.md :: 改動工作室
-+ tools/alaakita/README.zh-TW.md :: 變更工作室
-- tools/alaakita/doctor.py :: 改動工作室
-+ tools/alaakita/doctor.py :: 變更工作室
-= tools/alaakita/doctor.py :: def mask(
-- tools/alaakita/studio.py :: 改動工作室
-+ tools/alaakita/studio.py :: 變更工作室
-= tools/alaakita/studio.py :: def make_handler(
+# 本次:文件更新(README、使用手冊、測試計畫 v1.5)並納入觀察紀錄
++ README.md :: traceability
++ README.zh-TW.md :: 追溯對照
++ docs/USAGE.zh-TW.md :: 變更工作室
++ docs/test_plan.md :: v1.5
++ docs/observations/INDEX.md :: observed_
+= README.md :: ## Limitations
+= README.zh-TW.md :: ## 已知限制
+= docs/USAGE.zh-TW.md :: ## 8. 失敗分析流程
+= docs/test_plan.md :: ## 3. 測試案例
