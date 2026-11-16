@@ -52,6 +52,8 @@ class StudioCase(unittest.TestCase):
             f.write(FAKE_GH)
         self.set_gh({"checks_seq": [PASS3]})
         self.env_backup = dict(os.environ)
+        # 子程序會繼承此變數；移除以避免測試輸出寫入實際的作業摘要
+        os.environ.pop("GITHUB_STEP_SUMMARY", None)
         os.environ.update(SHIP_GH=self.fake, FAKE_GH_STATE=self.state,
                           SHIP_POLL_SECONDS="0", SHIP_TIMEOUT_SECONDS="0.5")
         self.st = studio.Studio(self.repo, TOKEN)
