@@ -3,8 +3,7 @@
 # - 檔案 :: 標記   修改後次數須減少
 # = 檔案 :: 標記   修改前後次數須相同(用來確認沒有誤改)
 
-# 本次:在 README 加入專案概覽圖
-+ README.md :: docs/overview.png
-+ README.zh-TW.md :: docs/overview.png
-= README.md :: AlaAkita Gate
-= README.zh-TW.md :: AlaAkita Gate
+# 本次:測試執行時不將輸出寫入實際的作業摘要
++ tools/alaakita/test_studio.py :: GITHUB_STEP_SUMMARY
+= tools/alaakita/studio.py :: def make_handler(
+= tools/alaakita/gate.py :: GITHUB_STEP_SUMMARY
