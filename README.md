@@ -63,7 +63,8 @@ api-test-portfolio/
 ├── data/                         Test data
 ├── tools/
 │   ├── explore_api.py            Observation tool: records real API responses
-│   └── alaakita/                 AlaAkita Gate: change-location check, repeated-error counter
+│   ├── traceability/             Test ID comparison between the test plan and the tests
+│   └── alaakita/                 AlaAkita Gate, change studio, ship flow, environment check, repeated-error counter
 ├── docs/
 │   ├── test_plan.md              Scope, priorities, test cases and their basis
 │   ├── api_observed.md           Initial recorded responses
@@ -110,6 +111,8 @@ All variables are optional.
 | Run the smoke test only | `.\.venv\Scripts\python.exe -m pytest -m smoke` |
 | Run one file | `.\.venv\Scripts\python.exe -m pytest tests/test_posts_positive.py` |
 | Record current API behavior | `.\.venv\Scripts\python.exe tools/explore_api.py` |
+| Compare Test IDs in the test plan with the tests | `.\.venv\Scripts\python.exe tools/traceability/trace_summary.py` |
+| Run the unit tests of the traceability tool | `.\.venv\Scripts\python.exe -m unittest discover -s tools/traceability -p "test_*.py"` |
 
 A successful run ends with a line like:
 
@@ -121,6 +124,7 @@ A successful run ends with a line like:
 
 - **Local:** each run writes `reports/report.html`, a single file that opens offline.
 - **CI:** the workflow runs on every push and pull request, and once a week. Each run publishes one report per Python version. Open a run on the [Actions page](https://github.com/alaakita-code/api-test-portfolio/actions) and download it from the **Artifacts** section.
+- **Traceability summary:** each CI run compares the Test IDs in `docs/test_plan.md` with the Test IDs in `tests/` and writes a table to the job summary. The step fails when an ID exists on only one side.
 - **Merge gate:** `main` accepts changes only through pull requests. A pull request can be merged only after the API tests pass on both Python versions and the AlaAkita Gate passes. The gate checks that each change lands where `.alaakita/expect.txt` says it should.
 
 The report keeps version information only. Details of the machine that ran the tests are filtered out by default.
@@ -137,6 +141,8 @@ Each run writes two records:
 | Full | `observations_local/` | No | All headers, full error messages, machine details |
 
 The full record stays on the local machine for troubleshooting. Only the public record is published.
+
+The committed public records in `docs/observations/` are listed in `docs/observations/INDEX.md`, one row per run.
 
 ## Limitations
 

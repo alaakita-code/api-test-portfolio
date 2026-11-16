@@ -114,6 +114,10 @@ Remove-Item Env:REPORT_FULL_ENVIRONMENT
 | `docs/api_notes.md` | 探索摘要與已知限制 |
 | `docs/observations/` | 觀察工具之公開版輸出：各次執行之紀錄與總清單 |
 | `observations_local/` | 觀察工具之完整版輸出，僅供本機排查，不納入版本控制 |
+| `.alaakita/` | 合併擋關之設定：`gate.txt`、`expect.txt`、`required_checks.txt`（見第 14 節） |
+| `.github/workflows/alaakita-gate.yml` | CI 工作流程：AlaAkita 擋關（見第 14 節） |
+| `tools/alaakita/` | 擋關、變更工作室、提交流程腳本、環境檢查、重複錯誤計數器及其單元測試（見第 14 節） |
+| `tools/traceability/` | 追溯工具：比對測試計畫與測試之 Test ID（見 14.6） |
 
 設計原則如下：
 
@@ -355,7 +359,7 @@ Linux 與 macOS 採用 LF；統一格式後，各作業系統所取得之檔案�
 | 權限 | 僅讀取儲存庫內容 |
 | 產出 | 各 Python 版本一份 HTML 報告，保存 30 天 |
 
-步驟依序為：取出程式碼、安裝指定版本之 Python、安裝相依套件、執行測試、上傳報告。
+步驟依序為：取出程式碼、安裝指定版本之 Python、安裝相依套件、檢查追溯工具之單元測試、執行測試、產生追溯摘要、上傳報告。
 上傳步驟設定為測試失敗時仍予執行，因測試失敗時尤其需要報告以供分析。
 
 排程之目的，在於程式碼未變更時仍定期執行測試，以察覺被測對象行為之變更。
@@ -419,3 +423,91 @@ git push -u origin main
   並以動詞原形起始（如 Add、Fix、Update），與 Git 之通用慣例一致。
 
 推送完成後，工作流程即自動執行。
+
+## 14. 治理與驗證工具
+
+本節說明合併前之檢查機制與輔助工具。各工具之詳細用法見 `tools/alaakita/README.zh-TW.md`。
+「備註」欄記載各項之實際執行狀況；未經執行或驗證者一律標示，不視為已具備。
+
+### 14.1 合併規則
+
+`main` 為受保護分支，不接受直接推送；變更須經分支與合併請求（pull request）。
+合併前須通過 `.alaakita/required_checks.txt` 所列之三項檢查：`gate`、`Python 3.11`、`Python 3.13`。
+
+### 14.2 擋關（Gate）
+
+| 項目 | 說明 |
+|---|---|
+| 腳本 | `tools/alaakita/gate.py`，以 `--base <基準提交>` 指定比較基準 |
+| 步驟 | 先執行路徑檢查（比對 `.alaakita/expect.txt`），再執行 `.alaakita/gate.txt` 所列之測試指令 |
+| 測試指令 | 目前僅 `python -m unittest discover -s tools/alaakita -p "test_*.py"`；專案無單檔 HTML，故不設 verify |
+| CI | `.github/workflows/alaakita-gate.yml`，於合併請求、推送至 `main` 及手動時執行；無基準提交時略過路徑檢查 |
+| 範圍 | 不執行 `tools/traceability` 之單元測試，該項由 `tests.yml` 執行 |
+
+`.alaakita/expect.txt` 之規則格式為 `符號 檔案 :: 標記`：
+
+| 符號 | 意義 |
+|---|---|
+| `+` | 標記於該檔案之出現次數須增加 |
+| `-` | 標記之出現次數須減少 |
+| `=` | 標記之出現次數須維持不變，用以確認未誤改 |
+
+### 14.3 本機執行擋關於 Windows 之已知問題
+
+擋關以 `cmd.exe` 執行測試指令。若環境變數 PATH 之長度超過 8191 字元，`cmd.exe` 將無法解析 `python`，擋關失敗。
+已驗證之原因：實測 PATH 為 8265 字元，含重複之系統目錄項目；去除重複後為 1976 字元，擋關通過。
+僅對目前之 PowerShell 視窗生效之處理方式如下，不變更系統設定：
+
+```
+$seen = @{}
+$env:PATH = (($env:PATH -split ';' | Where-Object { $_ -and -not $seen.ContainsKey($_.ToLower()) -and ($seen[$_.ToLower()] = $true) }) -join ';')
+```
+
+永久清理系統 PATH 為使用者之選擇，本專案不要求。
+
+### 14.4 提交流程腳本與變更工作室
+
+| 工具 | 說明 |
+|---|---|
+| `tools/alaakita/ship.py` | 子命令 `start`、`submit`、`finish`。`submit` 執行本機擋關後，以 `git add -A` 加入變更、提交、推送、建立合併請求，並輪詢檢查結果；必要檢查缺漏或未完成者視為未通過。不會自動合併 |
+| `tools/alaakita/studio.py`（變更工作室） | 以介面包裝提交流程；操作紀錄寫入 `.alaakita/local/history.jsonl`（已列入 `.gitignore`；該檔未被忽略時，工具拒絕執行） |
+| `tools/alaakita/doctor.py` | 環境檢查；輸出時遮蔽使用者目錄與權杖 |
+
+使用 `ship.py submit` 前，應先以 `git status` 確認無不應提交之未追蹤檔案，因 `git add -A` 會一併加入。
+
+### 14.5 執行狀況
+
+| 項目 | 備註 |
+|---|---|
+| 擋關（CI） | 已執行；合併請求之三項必要檢查均通過 |
+| 擋關（本機，Windows） | 受 14.3 所述之 PATH 長度影響；縮短 PATH 後通過 |
+| `ship.py submit`、`finish` | 2026-11-15 經變更工作室各執行一次，均成功（`ok=True`、代碼 0）；必要檢查之名稱比對於當時已啟用 |
+| `ship.py start` | 無執行紀錄 |
+| 變更工作室 | 已執行（見上列之紀錄） |
+| `doctor.py` | 無對應之單元測試；實際執行紀錄待確認 |
+| `lesson_counter.py` | 僅通過單元測試，未以實際資料執行 |
+| `tools/alaakita` 單元測試 | 2026-11-16 於 Python 3.11 與 3.13 各 77 項通過 |
+
+### 14.6 追溯工具
+
+`tools/traceability/trace_summary.py` 讀取 `docs/test_plan.md` 各表之 Test ID（POS、BND、NEG、ERR、REP 加兩位數編號），
+以及 `tests/` 內各測試說明文字第一行之 Test ID（得為範圍）與 `pytest.param(..., id="BND-03-...")` 之 id，
+比對兩邊是否一致。任一編號僅存在於單邊時，結束代碼非 0；未標示 Test ID 之測試僅列出，不判定失敗。
+加上 `--junit <檔案>` 時，表中增列通過與否之欄位；未提供時該欄顯示 `-`。
+
+```
+.\.venv\Scripts\python.exe tools/traceability/trace_summary.py
+.\.venv\Scripts\python.exe -m unittest discover -s tools/traceability -p "test_*.py"
+```
+
+| 項目 | 備註 |
+|---|---|
+| 本機執行 | 已執行，結果正常；單元測試 12 項通過 |
+| CI（Python 3.11） | 摘要：計畫 24、已實作 24、通過 24、未通過 0；另有 1 個未標示 Test ID 之測試（冒煙測試） |
+| CI（Python 3.13） | 該步驟通過；摘要內容待確認 |
+
+## 15. 修訂紀錄
+
+| 日期 | 內容 |
+|---|---|
+| 2026-11-17 | 第 6 節新增四列；13.1 之步驟說明由「取出程式碼、安裝指定版本之 Python、安裝相依套件、執行測試、上傳報告」更新為現行七個步驟；新增第 14 節；新增本節。其餘內容未變更 |

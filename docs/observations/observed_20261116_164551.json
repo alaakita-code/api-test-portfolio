@@ -1,0 +1,359 @@
+{
+  "run_time_utc": "2026-11-16T16:45:51Z",
+  "base_url": "https://jsonplaceholder.typicode.com",
+  "records": [
+    {
+      "number": 1,
+      "group": "positive",
+      "method": "GET",
+      "path": "/posts",
+      "sent": null,
+      "question": "list: how many items?",
+      "status": 200,
+      "seconds": 1.049,
+      "summary": "list of 100; item keys: userId, id, title, body",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "max-age=43200",
+        "cf-cache-status": "HIT"
+      },
+      "body": "[\n  {\n    \"userId\": 1,\n    \"id\": 1,\n    \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\n    \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\n  },\n  {\n    \"userId\": 1,\n    \"id\": 2,\n    \"title\": \"qui est esse\",\n    \"body\": \"est rerum tempore vitae\\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\\nqui aperiam non debitis possimus qui neque nisi nulla\"\n  },\n  {\n    \"userId\": 1,\n    \"id\": 3,\n    \"title\": \"ea molestias quasi exercitationem repellat qui ipsa sit aut\",\n    \"body\": \"et iusto sed quo iure\\nvoluptatem occaecati omnis eligendi aut ad\\nvoluptatem doloribus vel accusantium quis pariatur\\nmolestiae porro eius odio et labore et velit aut\"\n  },\n  {\n    \"userId\": 1,\n    \"id\": 4,\n    \"title\": \"eum et est occaecati\",\n    \"body\": \"ullam et saepe reic\n... (truncated)"
+    },
+    {
+      "number": 2,
+      "group": "positive",
+      "method": "GET",
+      "path": "/posts/1",
+      "sent": null,
+      "question": "single item: which fields?",
+      "status": 200,
+      "seconds": 0.897,
+      "summary": "object; keys: userId, id, title, body",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "max-age=43200",
+        "cf-cache-status": "HIT"
+      },
+      "body": "{\n  \"userId\": 1,\n  \"id\": 1,\n  \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\n  \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\n}"
+    },
+    {
+      "number": 3,
+      "group": "positive",
+      "method": "GET",
+      "path": "/posts?userId=1",
+      "sent": null,
+      "question": "filter by userId",
+      "status": 200,
+      "seconds": 0.621,
+      "summary": "list of 10; item keys: userId, id, title, body",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "max-age=43200",
+        "cf-cache-status": "HIT"
+      },
+      "body": "[\n  {\n    \"userId\": 1,\n    \"id\": 1,\n    \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\n    \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\n  },\n  {\n    \"userId\": 1,\n    \"id\": 2,\n    \"title\": \"qui est esse\",\n    \"body\": \"est rerum tempore vitae\\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\\nqui aperiam non debitis possimus qui neque nisi nulla\"\n  },\n  {\n    \"userId\": 1,\n    \"id\": 3,\n    \"title\": \"ea molestias quasi exercitationem repellat qui ipsa sit aut\",\n    \"body\": \"et iusto sed quo iure\\nvoluptatem occaecati omnis eligendi aut ad\\nvoluptatem doloribus vel accusantium quis pariatur\\nmolestiae porro eius odio et labore et velit aut\"\n  },\n  {\n    \"userId\": 1,\n    \"id\": 4,\n    \"title\": \"eum et est occaecati\",\n    \"body\": \"ullam et saepe reic\n... (truncated)"
+    },
+    {
+      "number": 4,
+      "group": "positive",
+      "method": "GET",
+      "path": "/posts/1/comments",
+      "sent": null,
+      "question": "nested route",
+      "status": 200,
+      "seconds": 0.936,
+      "summary": "list of 5; item keys: postId, id, name, email, body",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "max-age=43200",
+        "cf-cache-status": "HIT"
+      },
+      "body": "[\n  {\n    \"postId\": 1,\n    \"id\": 1,\n    \"name\": \"id labore ex et quam laborum\",\n    \"email\": \"Eliseo@gardner.biz\",\n    \"body\": \"laudantium enim quasi est quidem magnam voluptate ipsam eos\\ntempora quo necessitatibus\\ndolor quam autem quasi\\nreiciendis et nam sapiente accusantium\"\n  },\n  {\n    \"postId\": 1,\n    \"id\": 2,\n    \"name\": \"quo vero reiciendis velit similique earum\",\n    \"email\": \"Jayne_Kuhic@sydney.com\",\n    \"body\": \"est natus enim nihil est dolore omnis voluptatem numquam\\net omnis occaecati quod ullam at\\nvoluptatem error expedita pariatur\\nnihil sint nostrum voluptatem reiciendis et\"\n  },\n  {\n    \"postId\": 1,\n    \"id\": 3,\n    \"name\": \"odio adipisci rerum aut animi\",\n    \"email\": \"Nikita@garfield.biz\",\n    \"body\": \"quia molestiae reprehenderit quasi aspernatur\\naut expedita occaecati aliquam eveniet laudantium\\nomnis quibusdam delectus saepe quia accusamus maiores nam est\\ncum et ducimus et vero voluptates excepturi deleniti ratione\"\n  },\n  {\n    \"postId\": 1,\n    \"id\": 4,\n   \n... (truncated)"
+    },
+    {
+      "number": 5,
+      "group": "positive",
+      "method": "POST",
+      "path": "/posts",
+      "sent": {
+        "title": "foo",
+        "body": "bar",
+        "userId": 1
+      },
+      "question": "create: status and returned id?",
+      "status": 201,
+      "seconds": 1.091,
+      "summary": "object; keys: title, body, userId, id",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-cache",
+        "cf-cache-status": "DYNAMIC"
+      },
+      "body": "{\n  \"title\": \"foo\",\n  \"body\": \"bar\",\n  \"userId\": 1,\n  \"id\": 101\n}"
+    },
+    {
+      "number": 6,
+      "group": "positive",
+      "method": "PUT",
+      "path": "/posts/1",
+      "sent": {
+        "id": 1,
+        "title": "t",
+        "body": "b",
+        "userId": 1
+      },
+      "question": "full update",
+      "status": 200,
+      "seconds": 1.172,
+      "summary": "object; keys: id, title, body, userId",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-cache",
+        "cf-cache-status": "DYNAMIC"
+      },
+      "body": "{\n  \"id\": 1,\n  \"title\": \"t\",\n  \"body\": \"b\",\n  \"userId\": 1\n}"
+    },
+    {
+      "number": 7,
+      "group": "positive",
+      "method": "PATCH",
+      "path": "/posts/1",
+      "sent": {
+        "title": "patched"
+      },
+      "question": "partial update",
+      "status": 200,
+      "seconds": 0.786,
+      "summary": "object; keys: userId, id, title, body",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-cache",
+        "cf-cache-status": "DYNAMIC"
+      },
+      "body": "{\n  \"userId\": 1,\n  \"id\": 1,\n  \"title\": \"patched\",\n  \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\n}"
+    },
+    {
+      "number": 8,
+      "group": "positive",
+      "method": "DELETE",
+      "path": "/posts/1",
+      "sent": null,
+      "question": "delete: status and body?",
+      "status": 200,
+      "seconds": 0.805,
+      "summary": "empty object",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-cache",
+        "cf-cache-status": "DYNAMIC"
+      },
+      "body": "{}"
+    },
+    {
+      "number": 9,
+      "group": "boundary",
+      "method": "GET",
+      "path": "/posts/100",
+      "sent": null,
+      "question": "last valid id",
+      "status": 200,
+      "seconds": 0.815,
+      "summary": "object; keys: userId, id, title, body",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "max-age=43200",
+        "cf-cache-status": "HIT"
+      },
+      "body": "{\n  \"userId\": 10,\n  \"id\": 100,\n  \"title\": \"at nam consequatur ea labore ea harum\",\n  \"body\": \"cupiditate quo est a modi nesciunt soluta\\nipsa voluptas error itaque dicta in\\nautem qui minus magnam et distinctio eum\\naccusamus ratione error aut\"\n}"
+    },
+    {
+      "number": 10,
+      "group": "boundary",
+      "method": "GET",
+      "path": "/posts/0",
+      "sent": null,
+      "question": "just below the first id",
+      "status": 404,
+      "seconds": 0.749,
+      "summary": "empty object",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "max-age=43200",
+        "cf-cache-status": "HIT"
+      },
+      "body": "{}"
+    },
+    {
+      "number": 11,
+      "group": "boundary",
+      "method": "GET",
+      "path": "/posts/101",
+      "sent": null,
+      "question": "just above the last id",
+      "status": 404,
+      "seconds": 0.568,
+      "summary": "empty object",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "max-age=43200",
+        "cf-cache-status": "HIT"
+      },
+      "body": "{}"
+    },
+    {
+      "number": 12,
+      "group": "boundary",
+      "method": "GET",
+      "path": "/posts/-1",
+      "sent": null,
+      "question": "negative id",
+      "status": 404,
+      "seconds": 0.691,
+      "summary": "empty object",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "max-age=43200",
+        "cf-cache-status": "HIT"
+      },
+      "body": "{}"
+    },
+    {
+      "number": 13,
+      "group": "boundary",
+      "method": "GET",
+      "path": "/posts/abc",
+      "sent": null,
+      "question": "non-numeric id",
+      "status": 404,
+      "seconds": 0.696,
+      "summary": "empty object",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "max-age=43200",
+        "cf-cache-status": "HIT"
+      },
+      "body": "{}"
+    },
+    {
+      "number": 14,
+      "group": "negative",
+      "method": "GET",
+      "path": "/not-a-real-path",
+      "sent": null,
+      "question": "unknown path",
+      "status": 404,
+      "seconds": 0.813,
+      "summary": "empty object",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "max-age=43200",
+        "cf-cache-status": "HIT"
+      },
+      "body": "{}"
+    },
+    {
+      "number": 15,
+      "group": "negative",
+      "method": "GET",
+      "path": "/posts?userId=999",
+      "sent": null,
+      "question": "filter with no match",
+      "status": 200,
+      "seconds": 0.727,
+      "summary": "empty list",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "max-age=43200",
+        "cf-cache-status": "HIT"
+      },
+      "body": "[]"
+    },
+    {
+      "number": 16,
+      "group": "negative",
+      "method": "POST",
+      "path": "/posts",
+      "sent": {},
+      "question": "empty body: is it rejected?",
+      "status": 201,
+      "seconds": 0.7,
+      "summary": "object; keys: id",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-cache",
+        "cf-cache-status": "DYNAMIC"
+      },
+      "body": "{\n  \"id\": 101\n}"
+    },
+    {
+      "number": 17,
+      "group": "negative",
+      "method": "PUT",
+      "path": "/posts/101",
+      "sent": {
+        "title": "x"
+      },
+      "question": "update an id that does not exist",
+      "status": 404,
+      "seconds": 1.045,
+      "summary": "empty object",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-cache",
+        "cf-cache-status": "DYNAMIC"
+      },
+      "body": "{}"
+    },
+    {
+      "number": 18,
+      "group": "negative",
+      "method": "DELETE",
+      "path": "/posts/101",
+      "sent": null,
+      "question": "delete an id that does not exist",
+      "status": 200,
+      "seconds": 0.753,
+      "summary": "empty object",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-cache",
+        "cf-cache-status": "DYNAMIC"
+      },
+      "body": "{}"
+    },
+    {
+      "number": 19,
+      "group": "repeat",
+      "method": "GET",
+      "path": "/posts/1",
+      "sent": null,
+      "question": "same GET again: same result?",
+      "status": 200,
+      "seconds": 0.563,
+      "summary": "object; keys: userId, id, title, body",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "max-age=43200",
+        "cf-cache-status": "HIT"
+      },
+      "body": "{\n  \"userId\": 1,\n  \"id\": 1,\n  \"title\": \"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\",\n  \"body\": \"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\"\n}"
+    },
+    {
+      "number": 20,
+      "group": "repeat",
+      "method": "DELETE",
+      "path": "/posts/1",
+      "sent": null,
+      "question": "same DELETE again: same result?",
+      "status": 200,
+      "seconds": 0.792,
+      "summary": "empty object",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-cache",
+        "cf-cache-status": "DYNAMIC"
+      },
+      "body": "{}"
+    }
+  ]
+}
